@@ -1,15 +1,13 @@
-ATLAS_STRING_1="mongodb://"
-DB_USER="USER" 
-DB_PW="DB_PW"
-ATLAS_STRING_2="@cluster0-shard-00-00.url:port,cluster0-shard-00-01.url:port,cluster0-shard-00-02.url:port/"
-DB_NAME="DB_NAME"
-COLLECTION_PREFIX="COLLECTION_PREFIX"
-ATLAS_PARAMS="?authSource=admin&replicaSet=atlas-eenptg-shard-0&w=majority&readPreference=primary&retryWrites=true&ssl=true"
-CORS_ORIGIN="*"
+ATLAS_STRING_1=mongodb://
+ATLAS_STRING_2=@cluster0-shard-00-00.url:port,cluster0-shard-00-01.url:port,cluster0-shard-00-02.url:port/
+ATLAS_PARAMS=?authSource=**admin**&replicaSet=atlas-**id**-shard-0&w=majority&readPreference=primary&retryWrites=true&ssl=true
 
-QUICKNODE_API_WS="wss://URL/"
-GAS_STATION_API_URL="https://ethgasstation.info/api/ethgasAPI.json?"
-BLOCKNATIVE_API_URL="https://api.blocknative.com/gasprices/blockprices"
+DB_USER=DB_USER
+DB_PW=DB_PW
+DB_NAME=DB_NAME
+COLLECTION_PREFIX=COLLECTION_PREFIX
+
+QUICKNODE_API_WS="wss://QUICKNODE_API_WS"
 BLOCKNATIVE_API_KEY="KEY"
 INFURA_KEY1="KEY"
 INFURA_KEY2="KEY"
@@ -21,10 +19,18 @@ ETHERSCAN_KEY="KEY"
 ETHERSCAN_KEY2="KEY"
 POKT_KEY="KEY"
 
+HEROKU_APP_NAME_CONFIRMED_WORKER="APP_NAME"
+HEROKU_APP_NAME_PENDING_WORKER="APP_NAME"
+HEROKU_APP_NAME_WEBSOCKET_WORKER="APP_NAME"
+
+CORS_ORIGIN="*"
+GAS_STATION_API_URL="https://ethgasstation.info/api/ethgasAPI.json?"
+BLOCKNATIVE_API_URL="https://api.blocknative.com/gasprices/blockprices"
+
 UNIV2="0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
 UNIV3="0xE592427A0AEce92De3Edee1F18E0157C05861564"
 SUSHIV2="0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F"
- 
+
 WRAPPED="https://wrapped.tokensoft.eth.link/"
 YEARN="https://yearn.science/static/tokenlist.json"
 ROLL="https://app.tryroll.com/tokens.json"
@@ -50,8 +56,3 @@ ZAPPER="https://zapper.fi/api/token-list"
 UMA="https://umaproject.org/uma.tokenlist.json"
 BAZAR="https://raw.githubusercontent.com/EthereansOS/Organizations-Interface/master/bazar-tokens-list/dist/decentralizedFlexibleOrganizations.json"
 ZERION="https://tokenlist.zerion.eth.link"
-
- 
-HEROKU_APP_NAME_CONFIRMED="TEST_1"
-HEROKU_APP_NAME_PENDING="TEST_1"
-HEROKU_APP_NAME_WEBSOCKET__COMMONS="TEST_1"
