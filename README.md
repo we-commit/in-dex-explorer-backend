@@ -1,4 +1,4 @@
-# Backend Repo for Trojan Finance.
+# Backend Repo for Trojan Finance. (WIP)
 
 An open source DEX explorer for Defi.
 
