@@ -8,10 +8,11 @@ import { pendingOld } from './utils/mongo/saveConfirmed';
 const { txM, g } = models;
 const { BLOCKNATIVE_API_URL, GAS_STATION_API_URL, BLOCKNATIVE_API_OPT, GAS_STATION_API_OPT } = KEYS;
 const { ES_BLOCK } = ENV;
+
 const FIXER_INTERVAL: number = 60000 * 1;
 const FIXER_INTERVAL_G: number = 60000 * 60;
+
 const serverName = 'qnCommons';
-let lastRef: number = 0;
 
 startMongo(serverName).then(async (started) => {
   await timeout(5000);
@@ -19,6 +20,7 @@ startMongo(serverName).then(async (started) => {
     _log.start('startFixer Go run every', FIXER_INTERVAL / 60000, 'minutes');
     startFixerJustKill();
     startFixerG();
+    startBlocks();
 
     setInterval(() => {
       startFixerJustKill();
@@ -28,7 +30,9 @@ startMongo(serverName).then(async (started) => {
       startFixerG();
     }, FIXER_INTERVAL_G);
 
-    startBlocks();
+    setInterval(() => {
+      proccessBlockQueue();
+    }, 10000);
   } else {
     _log.warn('---> startFixer ', started);
   }
@@ -41,7 +45,8 @@ const startBlocks = async () => {
     proccessBlock(number);
   });
 
-  proccessBlockQueue();
+ 
+  
 };
 
 const proccessBlock = async (number: number) => {
@@ -58,7 +63,6 @@ const proccessBlock = async (number: number) => {
         blockHeader: block,
         by: serverName
       });
-      lastRef = block.number;
     }
   } catch (e: any) {
     _log.error('ProccessBlock catch ', number, e);
@@ -68,9 +72,9 @@ const proccessBlock = async (number: number) => {
 
 const proccessBlockQueue = async () => {
   try {
-    const b = await models.g.blocks.findOne({ fullyUpdated: false }, null, { sort: { blockNumber: -1 } });
+    const b = await models.g.blocks.findOne({ fullyUpdated: false }, null, { sort: { timestampTx: -1 } });
     if (b) {
-      if (b.blockNumber >= lastRef) {
+      if (b.blockNumber) {
         const [gasnowResponse, bncResponseData] = await Promise.all([
           getBlockInfo(GAS_STATION_API_URL, GAS_STATION_API_OPT),
           getBlockInfo(BLOCKNATIVE_API_URL, BLOCKNATIVE_API_OPT)
@@ -88,8 +92,6 @@ const proccessBlockQueue = async () => {
     _log.warn('proccessBlockQueue catch', e.message);
   }
 
-  await timeout(6000);
-  proccessBlockQueue();
   return;
 };
 

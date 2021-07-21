@@ -74,7 +74,7 @@ const watchBlocks = () => {
     const { _doc } = await g.blocks.findById(data.documentKey._id);
     const { fullyUpdated, blockNumber } = _doc;
 
-    if (fullyUpdated === true && blockNumber > lastBlockNumber) {
+    if (fullyUpdated === true && blockNumber >= lastBlockNumber) {
       lastBlockNumber = blockNumber;
       explorerNS.emit('new_block', _doc);
     }
@@ -85,8 +85,8 @@ const joinToBlocks = (socket: Socket<any>) => {
   socket.on('join_to_blocks', async () => {
     try {
       const { id } = socket;
-      const block = await g.blocks.findOne({ fullyUpdated: true }, null, { sort: { blockNumber: -1 } });
-      if (block) explorerNS.to(id).emit('last_block', block);
+      const { _doc } = await g.blocks.findOne({ fullyUpdated: true }, null, { sort: { timestampTx: -1 } });
+      if (_doc) explorerNS.to(id).emit('last_block', _doc);
     } catch (e: any) {
       _log.error('join_to_blocks catch', e);
     }
