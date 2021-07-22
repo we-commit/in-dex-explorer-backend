@@ -7,6 +7,7 @@ const { UPDATE_ONLY, INSERT_ONLY, FIRST_QUERY, INS_PEND, DEL_PEND, INS_CONF } = 
 const { txM, g } = models;
 const serverName = 'web';
 
+let lastBlockNumber = 0;
 let usersCount = 0;
 
 startMongo(serverName).then((started) => {
@@ -70,8 +71,13 @@ const watchConfirmedTxs = () => {
 
 const watchBlocks = () => {
   g.blocks.watch(UPDATE_ONLY).on('change', async (data: any) => {
-    const { fullDocument } = data;
-    explorerNS.emit('new_block', fullDocument);
+    const { _doc } = await g.blocks.findById(data.documentKey._id);
+    const { fullyUpdated, blockNumber } = _doc;
+
+    if (fullyUpdated === true) {
+      lastBlockNumber = blockNumber;
+      explorerNS.emit('new_block', _doc);
+    }
   });
 };
 
