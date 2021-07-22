@@ -72,12 +72,10 @@ const watchConfirmedTxs = () => {
 const watchBlocks = () => {
   g.blocks.watch(UPDATE_ONLY).on('change', async (data: any) => {
     const { _doc } = await g.blocks.findById(data.documentKey._id);
-    const { fullyUpdated, blockNumber } = _doc;
+    const { blockNumber } = _doc;
 
-    if (fullyUpdated === true && blockNumber >= lastBlockNumber) {
-      lastBlockNumber = blockNumber;
-      explorerNS.emit('new_block', _doc);
-    }
+    lastBlockNumber = blockNumber;
+    explorerNS.emit('new_block', _doc);
   });
 };
 
