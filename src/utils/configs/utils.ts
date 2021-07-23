@@ -29,9 +29,9 @@ const ENV = {
   ATLAS_STRING: ATLAS_STRING_1 + DB_USER + ':' + DB_PW + ATLAS_STRING_2 + COLLECTION_PREFIX + ATLAS_PARAMS,
   COLLECTION_PREFIX,
   CORS_ORIGIN: process.env.CORS_ORIGIN || '',
-  ES_TX: 'https://etherscan.io/tx/',
-  ES_ADDRESS: 'https://etherscan.io/address/',
-  ES_BLOCK: 'https://etherscan.io/block/'
+  ES_TX: 'https://bscscan.com/tx/',
+  ES_ADDRESS: 'https://bscscan.com/address/',
+  ES_BLOCK: 'https://bscscan.com/block/'
 };
 
 const KEYS = {
