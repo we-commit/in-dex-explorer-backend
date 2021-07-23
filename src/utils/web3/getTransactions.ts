@@ -1,4 +1,4 @@
-import { esProvider, esProvider2, qnProviderWs, alProvider, alProvider2, infuraWsBlocks } from './providers';
+import { provider1 } from './providers';
 
 import { timeout, _log } from '../configs/utils';
 
@@ -26,7 +26,7 @@ const getFromBackupProviders = async (hash: string) => {
   try {
     let txResponse = null;
     let who = 'null';
-    txResponse = await goGetIt(qnProviderWs, hash, 'qnProviderWs');
+    txResponse = await goGetIt(provider1, hash, 'provider1');
 
     if (txResponse) {
       const { to, from } = txResponse;
@@ -36,22 +36,8 @@ const getFromBackupProviders = async (hash: string) => {
     } else {
       if (!txResponse) {
         await timeout(1000);
-        who = 'qnProviderWs';
-        txResponse = await goGetIt(qnProviderWs, hash, who);
-      }
-      if (!txResponse) {
-        who = 'infuraWsBlocks';
-        txResponse = await goGetIt(infuraWsBlocks, hash, who);
-      }
-
-      if (!txResponse) {
-        who = 'alProvider';
-        txResponse = await goGetIt(alProvider, hash, who);
-      }
-
-      if (!txResponse) {
-        who = 'esProvider';
-        txResponse = await goGetIt(esProvider, hash, who);
+        who = 'provider1';
+        txResponse = await goGetIt(provider1, hash, who);
       }
 
       if (txResponse) {
@@ -70,7 +56,7 @@ const getFromBackupProvidersC = async (hash: string) => {
   try {
     let txResponse = null;
     let who = 'null';
-    txResponse = await goGetIt(qnProviderWs, hash, 'qnProviderWs');
+    txResponse = await goGetIt(provider1, hash, 'provider1');
 
     if (txResponse) {
       const { to, from } = txResponse;
@@ -80,24 +66,15 @@ const getFromBackupProvidersC = async (hash: string) => {
     } else {
       if (!txResponse) {
         await timeout(1000);
-        who = 'qnProviderWs';
-        txResponse = await goGetIt(qnProviderWs, hash, who);
+        who = 'provider1';
+        txResponse = await goGetIt(provider1, hash, who);
       }
 
       if (!txResponse) {
-        who = 'infuraWsBlocks';
-        txResponse = await goGetIt(infuraWsBlocks, hash, who);
+        who = 'provider1';
+        txResponse = await goGetIt(provider1, hash, who);
       }
 
-      if (!txResponse) {
-        who = 'alProvider2';
-        txResponse = await goGetIt(alProvider2, hash, who);
-      }
-
-      if (!txResponse) {
-        who = 'esProvider2';
-        txResponse = await goGetIt(esProvider2, hash, who);
-      }
       if (txResponse) {
         const { to, from } = txResponse;
         if (to && from) return txResponse;

@@ -1,4 +1,4 @@
-import { qnProviderWs, esProvider2 } from './providers';
+import { provider1 } from './providers';
 import { timeout, _log } from '../configs/utils';
 
 const getPendingTxReceipt = async (hash: string) => {
@@ -14,7 +14,7 @@ const getFromProviders = async (hash: string) => {
   try {
     let txResponse = null;
     let who = 'null';
-    txResponse = await goGetIt(qnProviderWs, hash, who);
+    txResponse = await goGetIt(provider1, hash, who);
 
     if (txResponse) {
       const { to, from } = txResponse;
@@ -24,13 +24,13 @@ const getFromProviders = async (hash: string) => {
     } else {
       if (!txResponse) {
         await timeout(500);
-        who = 'qnProviderWs';
-        txResponse = await goGetIt(qnProviderWs, hash, who);
+        who = 'provider1';
+        txResponse = await goGetIt(provider1, hash, who);
       }
 
       if (!txResponse) {
-        who = 'esProvider2';
-        txResponse = await goGetIt(esProvider2, hash, who);
+        who = 'provider1';
+        txResponse = await goGetIt(provider1, hash, who);
       }
 
       if (txResponse) {

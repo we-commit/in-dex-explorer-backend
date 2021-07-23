@@ -9,7 +9,7 @@
     "uniswap",
     "defi",
     "mempool",
-    "sushiswap"
+    "pancakeswap"
   ],
   "scripts": {
     "pretty": "prettier --config .prettierrc 'src/**/*.ts' --write",
@@ -29,7 +29,6 @@
     "dev-r-tokens": "ts-node ./src/utils/dev-utils/reset-tokens.ts",
     "acp": "func() { git add --all && git commit -m ${1} && git push origin ${2} ;}; func",
     "lcs": "ts-node-dev ./src/listener-commons.ts",
-    "lm": "ts-node-dev ./src/listener-mempool.ts",
     "lc": "ts-node-dev ./src/listener-confirmation.ts",
     "web": "ts-node-dev ./src/_websocket-server.ts"
   },
@@ -57,8 +56,7 @@
     "@uniswap/v3-core": "1.0.0",
     "@uniswap/v3-periphery": "1.0.0",
     "@uniswap/v3-sdk": "^3.0.0",
-    "ethers": "^5.3.1",
-    "@sushiswap/core": "1.4.2",
-    "@sushiswap/sdk": "5.0.0-canary.7"
+    "@binance-chain/bsc-connector": "^1.0.0",
+    "ethers": "^5.3.1"
   }
 }

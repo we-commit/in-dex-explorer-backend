@@ -35,7 +35,7 @@ const ENV = {
 };
 
 const KEYS = {
-  QUICKNODE_API_WS: process.env.QUICKNODE_API_WS || '',
+  PROVIDER_1_WS: process.env.PROVIDER_1_WS || '',
 
   GAS_STATION_API_URL: process.env.GAS_STATION_API_URL || '',
   GAS_STATION_API_OPT: {},
@@ -55,9 +55,7 @@ const KEYS = {
 };
 
 const ROUTERS = {
-  UNIV3: checksum(process.env.UNIV3 || ''),
   UNIV2: checksum(process.env.UNIV2 || ''),
-  SUSHIV2: checksum(process.env.SUSHIV2 || '')
 };
 
 const TOKEN_LIST_ALL = Array<string>(

@@ -36,6 +36,8 @@ process.on('unhandledRejection', (reason, p) => {
 const startMongo = async (serverName: string): Promise<boolean> => {
   return new Promise((resolve) => {
     mongoose.connect(ENV.ATLAS_STRING || '', params, (e: any) => {
+      _log.info(ENV.ATLAS_STRING);
+
       if (!e) {
         _log.success(`${serverName} | MONGO OK CONNECT | ${ENV.COLLECTION_PREFIX}`);
         checkMongo(serverName);

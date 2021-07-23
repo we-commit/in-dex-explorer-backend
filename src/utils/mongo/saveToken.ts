@@ -1,6 +1,5 @@
 import { _log, checksum, nowMs } from '../configs/utils';
 import { models } from './config';
-import { _WETH_ADDRESS, _ETH_ADDRESS } from '../web3/utils';
 
 const { g } = models;
 

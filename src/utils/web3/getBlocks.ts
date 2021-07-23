@@ -1,5 +1,5 @@
 import { get } from 'https';
-import { qnProviderWs, infuraWsBlocks } from './providers';
+import { provider1 } from './providers';
 import { _log, timeout } from '../configs/utils';
 
 const getBlock = async (number: number) => {
@@ -15,20 +15,20 @@ const getFromBackupProviders = async (number: number) => {
   try {
     let blockResponse = null;
     let who = 'null';
-    blockResponse = await goGetIt(qnProviderWs, number);
+    blockResponse = await goGetIt(provider1, number);
 
     if (blockResponse) {
       return blockResponse;
     } else {
       if (!blockResponse) {
         await timeout(500);
-        who = 'infuraWsBlocks';
-        blockResponse = await goGetIt(infuraWsBlocks, number);
+        who = 'provider1';
+        blockResponse = await goGetIt(provider1, number);
       }
 
       if (!blockResponse) {
-        who = 'qnProviderWs';
-        blockResponse = await goGetIt(qnProviderWs, number);
+        who = 'provider1';
+        blockResponse = await goGetIt(provider1, number);
       }
 
       if (blockResponse) {

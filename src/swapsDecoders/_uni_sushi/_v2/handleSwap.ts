@@ -1,5 +1,4 @@
 import { nowMs, _log } from '../../../utils/configs/utils';
-import { createPending } from '../../../utils/mongo/savePending';
 import { createConfirm } from '../../../utils/mongo/saveConfirmed';
 import { getTokens } from '../../../utils/web3/getTokens';
 import { ITrojanTx } from '../../../models/TransactionSchema';
@@ -43,8 +42,6 @@ export const handleSwap = async (tx: ITrojanTx, dexSpace: string, directConfirm:
               createConfirm(toCreate, 'directConfirm');
             }
           });
-        } else {
-          createPending(toCreate, dexSpace);
         }
       } else {
         _log.warn('handleSwap', dexSpace, tx.hash, 'no mempool data after compute swap?');
