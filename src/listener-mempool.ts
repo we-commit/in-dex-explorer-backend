@@ -1,5 +1,5 @@
 import { startMongo, models } from './utils/mongo/config';
-import { qnProviderWs } from './utils/web3/providers';
+import { mainWs1 } from './utils/web3/providers';
 import { nowMs, timeout, _log } from './utils/configs/utils';
 import { getPendingTxResponse } from './utils/web3/getTransactions';
 import { proccessPending as pendingTx_uni_sushi } from './swapsDecoders/_uni_sushi/pending';
@@ -18,22 +18,22 @@ startMongo(serverName).then(async (started) => {
       if (!e) whalesCache = docs;
     });
 
-    _log.start('startListenPending Go!');
     startListenPending();
   } else {
     _log.warn('---> started ', started);
   }
 });
 
+
 const startListenPending = () => {
-  qnProviderWs.on('pending', async (hash: string) => {
+  mainWs1._subscribe("pending", ["newPendingTransactions"], async (hash: string) => {
     new hashes({
       hash,
       txHash: hash,
       timestampTx: nowMs()
     }).save(async (e: any) => {
       if (!e) {
-        const tx = await getPendingTxResponse(hash);
+        const tx = await getPendingTxResponse(hash, mainWs1, "P");
         if (tx) {
           const whaleData = whalesCache.find((w) => (w ? w.address.toLowerCase() === tx.from.toLowerCase() : false));
           pendingTx_uni_sushi(tx, whaleData, false);

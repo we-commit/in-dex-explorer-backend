@@ -35,8 +35,6 @@ const ENV = {
 };
 
 const KEYS = {
-  QUICKNODE_API_WS: process.env.QUICKNODE_API_WS || '',
-
   GAS_STATION_API_URL: process.env.GAS_STATION_API_URL || '',
   GAS_STATION_API_OPT: {},
   BLOCKNATIVE_API_URL: process.env.BLOCKNATIVE_API_URL || '',
@@ -47,10 +45,10 @@ const KEYS = {
   INFURA_KEY2: process.env.INFURA_KEY2 || '',
   INFURA_KEY3: process.env.INFURA_KEY3 || '',
   INFURA_KEY4: process.env.INFURA_KEY4 || '',
-  ALCHEMY_KEY1: process.env.ALCHEMY_KEY1 || '',
-  ALCHEMY_KEY2: process.env.ALCHEMY_KEY2 || '',
-  ETHERSCAN_KEY: process.env.ETHERSCAN_KEY || '',
+  ETHERSCAN_KEY1: process.env.ETHERSCAN_KEY1 || '',
   ETHERSCAN_KEY2: process.env.ETHERSCAN_KEY2 || '',
+  ALCHEMY_KEY1: process.env.ALCHEMY_KEY1 || '',
+  GET_BLOCK_KEY: process.env.GET_BLOCK_KEY || '',
   POKT_KEY: process.env.POKT_KEY || ''
 };
 

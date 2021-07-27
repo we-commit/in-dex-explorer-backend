@@ -57,7 +57,7 @@ DB_NAME=DB_NAME
 COLLECTION_PREFIX=COLLECTION_PREFIX
 
 // Main provider as the fastest and exact provider out there. Got a really good mempool.
-QUICKNODE_API_WS="wss://QUICKNODE_API_WS"
+MAIN_API_WS_URL="wss://MAIN_API_WS_URL"
 
 // Get data from the gas prediction API, really cool feature and pretty much exact.
 BLOCKNATIVE_API_KEY="KEY"

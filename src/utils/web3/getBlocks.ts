@@ -1,47 +1,29 @@
 import { get } from 'https';
-import { qnProviderWs, infuraWsBlocks } from './providers';
-import { _log, timeout } from '../configs/utils';
+import { fallbackProviderC } from './providers';
+import { _log } from '../configs/utils';
 
-const getBlock = async (number: number) => {
+const getBlock = async (number: number, provider: any) => {
   try {
-    const block = await getFromBackupProviders(number);
+    const block = await getFromBackupProviders(number, provider);
     return block;
   } catch (e: any) {
     _log.error('getBlock catch', number, e.message);
   }
 };
 
-const getFromBackupProviders = async (number: number) => {
+const getFromBackupProviders = async (number: number, provider: any) => {
   try {
-    let blockResponse = null;
-    let who = 'null';
-    blockResponse = await goGetIt(qnProviderWs, number);
-
+    const blockResponse = await goGetIt(provider, number);
     if (blockResponse) {
       return blockResponse;
-    } else {
-      if (!blockResponse) {
-        await timeout(500);
-        who = 'infuraWsBlocks';
-        blockResponse = await goGetIt(infuraWsBlocks, number);
-      }
-
-      if (!blockResponse) {
-        who = 'qnProviderWs';
-        blockResponse = await goGetIt(qnProviderWs, number);
-      }
-
-      if (blockResponse) {
-        const { to, from } = blockResponse;
-        if (to && from) {
-          _log.success('RETRY OUT getBlock', who, number);
-          return blockResponse;
-        }
-      }
-      _log.warn('RETRY HAS NEVER FOUND getBlock', number);
     }
   } catch (e: any) {
-    _log.error('getBlock catch ', number, e);
+    if (e.message === "noNetwork") {
+      const blockResponse = await goGetIt(fallbackProviderC, number);
+      if (blockResponse) {
+        return blockResponse;
+      }
+    }
   }
   return null;
 };
@@ -50,7 +32,9 @@ const goGetIt = async (provider: any, number: number) => {
   try {
     const _blockResponse = await provider.getBlock(number);
     if (_blockResponse) return _blockResponse;
-  } catch (e: any) {}
+  } catch (e: any) {
+    throw new Error(e.event);
+  }
   return null;
 };
 

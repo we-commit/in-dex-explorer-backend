@@ -1,7 +1,7 @@
 import { startMongo, models } from './utils/mongo/config';
-import { qnProviderWs } from './utils/web3/providers';
+import { alche, mainWs2 } from './utils/web3/providers';
 import { _log, timeout } from './utils/configs/utils';
-import { getPendingTxResponseC } from './utils/web3/getTransactions';
+import { getPendingTxResponse } from './utils/web3/getTransactions';
 import { proccessPending as pendingTx_uni_sushi } from './swapsDecoders/_uni_sushi/pending';
 import { pendingToConfirm, trashToconfirm } from './utils/mongo/saveConfirmed';
 
@@ -34,15 +34,13 @@ startMongo(serverName).then(async (started) => {
   }
 });
 
-const listenRouter = async (arrayFilter: Array<any>, isV2: boolean) => {
+const listenRouter = async (filter: Array<any>, isV2: boolean) => {
   try {
-    const topicsFilter = {
-      topics: arrayFilter
-    };
-
-    qnProviderWs.on(topicsFilter, async (data) => {
+    alche.on({
+      topics: filter
+    }, async (data) => {
       const hash = data.transactionHash;
-      const knownTx_ = await txM.pending.findOne({ hash }, null, {});
+      const [knownTx_, knownTx_g_] = await Promise.all([txM.pending.findOne({ hash }, null, {}), g.trash.findOne({ hash }, null, {})]);
       if (knownTx_) {
         const knownTx = knownTx_._doc;
         let nTx = { ...knownTx };
@@ -50,7 +48,7 @@ const listenRouter = async (arrayFilter: Array<any>, isV2: boolean) => {
         pendingToConfirm(nTx, {}, serverName);
         return;
       }
-      const knownTx_g_ = await g.trash.findOne({ hash }, null, {});
+
       if (knownTx_g_) {
         const knownTx_g = knownTx_g_._doc;
         let nTx = { ...knownTx_g };
@@ -59,12 +57,12 @@ const listenRouter = async (arrayFilter: Array<any>, isV2: boolean) => {
         return;
       }
 
-      const tx = await getPendingTxResponseC(hash);
+      const tx = await getPendingTxResponse(hash, mainWs2, "C");
       if (tx) {
         const whaleData = whalesCache.find((w) => (w ? w.address.toLowerCase() === tx.from.toLowerCase() : false));
         pendingTx_uni_sushi(tx, whaleData, true);
       } else {
-        _log.error('getPendingTxResponseC ', hash, 'not found confirmed tx?');
+        _log.error('getPendingTxResponse ', hash, 'not found confirmed tx?');
       }
     });
   } catch (e: any) {

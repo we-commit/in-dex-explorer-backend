@@ -1,6 +1,6 @@
 import { startMongo, models } from './utils/mongo/config';
 import { ENV, _log, KEYS, nowMs, timeout } from './utils/configs/utils';
-import { qnProviderWs } from './utils/web3/providers';
+import { mainWs3 } from './utils/web3/providers';
 import { getBlockInfo, getBlock } from './utils/web3/getBlocks';
 import { saveBlock, updateBlock } from './utils/mongo/saveBlock';
 import { pendingOld } from './utils/mongo/saveConfirmed';
@@ -41,7 +41,7 @@ startMongo(serverName).then(async (started) => {
 const startBlocks = async () => {
   _log.start('startBlocks Go!');
 
-  qnProviderWs.on('block', async (number) => {
+  mainWs3.on('block', async (number) => {
     proccessBlock(number);
   });
 
@@ -52,7 +52,7 @@ const startBlocks = async () => {
 const proccessBlock = async (number: number) => {
   try {
     _log.info('New Block: ', ES_BLOCK + number);
-    const block = await getBlock(number);
+    const block = await getBlock(number, mainWs3);
 
     if (block) {
       saveBlock({

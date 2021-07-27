@@ -27,12 +27,14 @@ const params = {
 };
 
 process.on('uncaughtException', function (err) {
-  console.log('uncaughtException', err.message);
+  console.log('uncaughtException', err);
 });
+
 process.on('unhandledRejection', (reason, p) => {
   _log.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
   // application specific logging, throwing an error, or other logic here
 });
+
 const startMongo = async (serverName: string): Promise<boolean> => {
   return new Promise((resolve) => {
     mongoose.connect(ENV.ATLAS_STRING || '', params, (e: any) => {
