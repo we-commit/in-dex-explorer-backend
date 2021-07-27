@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { models, startMongo } from '../mongo/config';
 import { checksum, nowMs, timeout, _log } from '../configs/utils';
-import { qnProviderWs } from '../web3/providers';
+import { mainWs1 } from '../web3/providers';
 import { savePools } from '../mongo/savePools';
 
 const serverName = 'initPools';
@@ -36,7 +36,7 @@ const startAddPoolsGet = async (fromBlock: any, lastBlock: any, dex: string, fac
       toBlock: toBlock >= lastBlock ? 'latest' : toBlock,
       topics: [filterTopics]
     };
-    const result = await qnProviderWs.getLogs(filter);
+    const result = await mainWs1.getLogs(filter);
 
     if (result)
       for (const r of result) {
@@ -75,7 +75,7 @@ const startAddPoolsGet = async (fromBlock: any, lastBlock: any, dex: string, fac
 
 const startAddPools = async () => {
   try {
-    const lastBlock = await qnProviderWs.getBlockNumber();
+    const lastBlock = await mainWs1.getBlockNumber();
 
     const pv2 = await g.pools.findOne({ isV2: true }, null, { sort: { blockNumber: -1 } });
     const pv3 = await g.pools.findOne({ isV3: true }, null, { sort: { blockNumber: -1 } });
