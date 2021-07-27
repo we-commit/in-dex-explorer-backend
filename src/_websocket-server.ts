@@ -74,7 +74,7 @@ const watchBlocks = () => {
     const { _doc } = await g.blocks.findById(data.documentKey._id);
     const { fullyUpdated, blockNumber } = _doc;
 
-    if (fullyUpdated === true && blockNumber >= lastBlockNumber) {
+    if (fullyUpdated === true) {
       lastBlockNumber = blockNumber;
       explorerNS.emit('new_block', _doc);
     }
