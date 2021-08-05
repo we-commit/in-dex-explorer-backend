@@ -1,3 +1,5 @@
+# REPLACED BY MONOREPO & FULL CLIENT PROJECT
+
 # Backend Repo for Trojan Finance. (WIP)
 
 An open source DEX explorer for Defi.
